@@ -4,6 +4,7 @@ import express from "express";
 import logger from "morgan";
 
 import authRouter from "./routes/auth";
+import formRouter from "./routes/form";
 import rootRouter from "./routes/root";
 
 const app = express();
@@ -16,5 +17,6 @@ app.use(cookieParser());
 
 app.use("/", rootRouter);
 app.use("/auth", authRouter);
+app.use("/form", formRouter);
 
 export default app;

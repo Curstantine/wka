@@ -44,11 +44,11 @@ export const authenticate: ExpressGenericRequestHandler = async (req, res, next)
 		decodedJWT = jwt.verify(token, JWT_TOKEN_SECRET) as JWTUser;
 	} catch (e) {
 		debug(e);
-		return res.status(401).json({ message: "Invalid refresh token." });
+		return res.status(401).json({ message: "Invalid refresh token" });
 	}
 
 	if (Date.now() > decodedJWT.exp! * 1000) {
-		return res.status(401).json({ message: "Session token has expired, please refresh the token." });
+		return res.status(401).json({ message: "Session token has expired, please refresh the token" });
 	}
 
 	res.locals.user = decodedJWT;
