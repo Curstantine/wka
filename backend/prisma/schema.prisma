@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String @id @default(cuid()) @map("_id")
+  username     String
+  email        String @unique
+  passwordHash String
+
+  forms Form[]
+
+  @@map("users")
+}
+
+model Form {
+  id        String     @id @default(cuid()) @map("_id")
+  title     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  questions Question[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("forms")
+}
+
+model Question {
+  id        String       @id @default(cuid()) @map("_id")
+  type      QuestionType
+  title     String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  form   Form   @relation(fields: [formId], references: [id])
+  formId String
+
+  // question data that changes based on the type
+  data QuestionData
+
+  @@map("questions")
+}
+
+enum QuestionType {
+  CATEGORIZE
+  CLOZE
+  COMPREHENSION
+}
+
+type QuestionData {
+  categorize    CategorizeQuestionData[]
+  cloze         ClozeQuestionData?
+  comprehension ComprehensionQuestionData?
+}
+
+type CategorizeQuestionData {
+  category String
+  answers  String[]
+}
+
+type ClozeQuestionData {
+  /// Contains the indexes of the [sentence] that should be removed.
+  indexes  Int[]
+  sentence String
+}
+
+type ComprehensionQuestionData {
+  content   String
+  questions ComprehensionQuestion[]
+}
+
+type ComprehensionQuestion {
+  question String
+  type     QuestionFormatType
+  opts     ComprehensionQuestionOpts
+}
+
+enum QuestionFormatType {
+  SELECT
+  MULTI_SELECT
+  TEXT
+}
+
+/// Different options used for coprehension questions.
+///
+/// This type contains all the options in one type, regardless of the question type.
+type ComprehensionQuestionOpts {
+  /// Max amount of selections or text length
+  /// Only used for TEXT and MULIT_SELECT
+  max Int?
+
+  /// Min amount of selections or text length
+  /// Only used for TEXT and MULIT_SELECT
+  min Int?
+
+  /// Options for the question.
+  /// Only used for SELECT and MULTI_SELECT
+  opts String[]
+}
