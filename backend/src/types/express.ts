@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { RequestHandler } from "express";
-import { JWTUser } from "../controllers/auth";
+
+import { JWTUser } from "./auth";
 
 export interface ExpressRequestLocals {
 	user?: JWTUser;

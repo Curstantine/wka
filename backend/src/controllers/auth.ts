@@ -1,61 +1,55 @@
-import { compare, hash } from "bcrypt";
-import { RequestHandler } from "express";
-import jwt from "jsonwebtoken";
+import debugUtils from "debug";
+import jwt, { sign } from "jsonwebtoken";
+import { v4 as uuid } from "uuid";
 
-import { AuthenticateRequestBody, JWTUser } from "../types/auth";
-import { ExpressRequestLocals } from "../types/express";
+import { JWT_REFRESH_TOKEN_SECRET, JWT_TOKEN_SECRET } from "../constants";
+import { JWTUser, JWTUserRefresh } from "../types/auth";
+import { ExpressGenericRequestHandler } from "../types/express";
 
-type AuthHandler = RequestHandler<{}, {}, AuthenticateRequestBody, {}, ExpressRequestLocals>;
+const debug = debugUtils("backend:controller:auth");
 
-export const authenticate: AuthHandler = async (req, res) => {
-	const { email, password } = req.body;
-
-	if (!email || !password) {
-		return res.status(400).json({ message: "Bad Request" });
-	}
-
-	const user = await res.locals.prisma.user.findUnique({
-		where: {
-			email,
-		},
-		select: {
-			id: true,
-			passwordHash: true,
-		},
-	});
-
-	if (!user) {
-		return res.status(401).json({ message: "A user by this email does not exist." });
-	}
-
-	if (!await compare(password, user.passwordHash)) {
-		return res.status(401).json({ message: "Incorrect password." });
-	}
-
-	const jwtUser: JWTUser = {
-		id: user.id,
+export function prepareSessionToken(userId: string, email: string) {
+	const sessionJWT: JWTUser = {
+		id: userId,
 		email,
 	};
 
-	const token = jwt.sign(jwtUser, process.env.JWT_SECRET!, { expiresIn: "1h" });
+	const sessionToken = sign(sessionJWT, JWT_TOKEN_SECRET, { expiresIn: "1h" });
 
-	return res.status(200).json({ token });
-};
+	return { sessionJWT, sessionToken };
+}
 
-/// auth middleware that checks for a jwt token in the request header
-export const authCheck: AuthHandler = async (req, res, next) => {
+export function prepareRefreshToken(user: JWTUser) {
+	const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+	const refreshJWT: JWTUserRefresh = {
+		...user,
+		refreshId: uuid(),
+		exp: expiresAt.getTime() / 1000,
+	};
+
+	const refreshToken = sign(refreshJWT, JWT_REFRESH_TOKEN_SECRET);
+
+	return { refreshJWT, refreshToken, expiresAt };
+}
+
+export const authenticate: ExpressGenericRequestHandler = async (req, res, next) => {
 	const token = req.headers.authorization?.split(" ")[1];
 
 	if (!token) {
 		return res.status(401).json({ message: "Unauthorized" });
 	}
 
+	let decodedJWT: JWTUser;
 	try {
-		const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-		res.locals.user = decoded as JWTUser;
-		next();
-	} catch (err) {
-		return res.status(401).json({ message: "Unauthorized" });
+		decodedJWT = jwt.verify(token, JWT_TOKEN_SECRET) as JWTUser;
+	} catch (e) {
+		debug(e);
+		return res.status(401).json({ message: "Invalid refresh token." });
 	}
+
+	if (Date.now() > decodedJWT.exp! * 1000) {
+		return res.status(401).json({ message: "Session token has expired, please refresh the token." });
+	}
+
+	res.locals.user = decodedJWT;
 };
-export { JWTUser };

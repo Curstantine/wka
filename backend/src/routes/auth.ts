@@ -1,40 +1,16 @@
 import { compare, hash } from "bcrypt";
 import debugUtils from "debug";
 import { Router } from "express";
-import { sign, verify } from "jsonwebtoken";
-import { v4 as uuid } from "uuid";
+import { verify } from "jsonwebtoken";
 
-import { JWT_REFRESH_TOKEN_SECRET, JWT_TOKEN_SECRET } from "../constants";
+import { JWT_REFRESH_TOKEN_SECRET } from "../constants";
+import { prepareRefreshToken, prepareSessionToken } from "../controllers/auth";
 import { handlePrismaErrors } from "../errors/prisma";
 import { AuthLoginBody, AuthRefreshBody, AuthRegisterRequestBody, JWTUser, JWTUserRefresh } from "../types/auth";
 import { ExpressAppLocals, ExpressGenericRequestHandler } from "../types/express";
 
 const router = Router();
-const debug = debugUtils("backend:auth");
-
-function prepareSessionToken(userId: string, email: string) {
-	const sessionJWT: JWTUser = {
-		id: userId,
-		email,
-	};
-
-	const sessionToken = sign(sessionJWT, JWT_TOKEN_SECRET, { expiresIn: "1h" });
-
-	return { sessionJWT, sessionToken };
-}
-
-function prepareRefreshToken(user: JWTUser) {
-	const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-	const refreshJWT: JWTUserRefresh = {
-		...user,
-		refreshId: uuid(),
-		exp: expiresAt.getTime() / 1000,
-	};
-
-	const refreshToken = sign(refreshJWT, JWT_REFRESH_TOKEN_SECRET);
-
-	return { refreshJWT, refreshToken, expiresAt };
-}
+const debug = debugUtils("backend:route:auth");
 
 const register: ExpressGenericRequestHandler<AuthRegisterRequestBody> = async (req, res) => {
 	const appLocals = req.app.locals as ExpressAppLocals;

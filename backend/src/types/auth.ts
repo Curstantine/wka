@@ -9,11 +9,6 @@ export interface JWTUserRefresh extends JWTUser {
 	refreshId: string;
 }
 
-export interface AuthenticateRequestBody {
-	email: string;
-	password: string;
-}
-
 export interface AuthRegisterRequestBody {
 	email: string;
 	username: string;
