@@ -1,19 +1,11 @@
 import { compare, hash } from "bcrypt";
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
-import { ExpressGlobalLocals } from "../types/express";
 
-export interface JWTUser {
-	id: String;
-	email: String;
-}
+import { AuthenticateRequestBody, JWTUser } from "../types/auth";
+import { ExpressRequestLocals } from "../types/express";
 
-export interface AuthenticateRequestBody {
-	email: string;
-	password: string;
-}
-
-type AuthHandler = RequestHandler<{}, {}, AuthenticateRequestBody, {}, ExpressGlobalLocals>;
+type AuthHandler = RequestHandler<{}, {}, AuthenticateRequestBody, {}, ExpressRequestLocals>;
 
 export const authenticate: AuthHandler = async (req, res) => {
 	const { email, password } = req.body;
@@ -66,3 +58,4 @@ export const authCheck: AuthHandler = async (req, res, next) => {
 		return res.status(401).json({ message: "Unauthorized" });
 	}
 };
+export { JWTUser };

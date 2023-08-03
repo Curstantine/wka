@@ -2,7 +2,7 @@
 	"private": true,
 	"name": "backend",
 	"scripts": {
-		"start": "cross-env DEBUG=* ts-node src/index.ts"
+		"start": "cross-env DEBUG=backend:* ts-node src/index.ts"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
