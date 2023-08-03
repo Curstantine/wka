@@ -11,18 +11,29 @@ datasource db {
 }
 
 model User {
-  id           String @id @default(cuid()) @map("_id")
+  id           String @id @default(uuid()) @map("_id")
   username     String
   email        String @unique
   passwordHash String
 
-  forms Form[]
+  forms    Form[]
+  sessions UserSessionRefresh[]
 
   @@map("users")
 }
 
+model UserSessionRefresh {
+  id        String   @id @default(uuid()) @map("_id")
+  expiresAt DateTime
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("user_session_refresh")
+}
+
 model Form {
-  id        String     @id @default(cuid()) @map("_id")
+  id        String     @id @default(uuid()) @map("_id")
   title     String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -35,7 +46,7 @@ model Form {
 }
 
 model Question {
-  id        String       @id @default(cuid()) @map("_id")
+  id        String       @id @default(uuid()) @map("_id")
   type      QuestionType
   title     String
   createdAt DateTime     @default(now())
