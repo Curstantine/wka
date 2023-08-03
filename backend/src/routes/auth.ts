@@ -4,7 +4,7 @@ import { Router } from "express";
 import { sign, verify } from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 
-import { UserSessionRefresh } from "@prisma/client";
+import { JWT_TOKEN_SECRET } from "../constants";
 import { handlePrismaErrors } from "../errors/prisma";
 import { AuthLoginBody, AuthRefreshBody, AuthRegisterRequestBody, JWTUser, JWTUserRefresh } from "../types/auth";
 import { ExpressAppLocals, ExpressGenericRequestHandler } from "../types/express";
@@ -18,7 +18,7 @@ function prepareSessionToken(userId: string, email: string) {
 		email,
 	};
 
-	const sessionToken = sign(sessionJWT, process.env.JWT_TOKEN_SECRET!, { expiresIn: "1h" });
+	const sessionToken = sign(sessionJWT, JWT_TOKEN_SECRET, { expiresIn: "1h" });
 
 	return { sessionJWT, sessionToken };
 }
@@ -31,7 +31,7 @@ function prepareRefreshToken(user: JWTUser) {
 		exp: expiresAt.getTime() / 1000,
 	};
 
-	const refreshToken = sign(refreshJWT, process.env.JWT_REFRESH_TOKEN_SECRET!);
+	const refreshToken = sign(refreshJWT, JWT_TOKEN_SECRET);
 
 	return { refreshJWT, refreshToken, expiresAt };
 }
@@ -155,7 +155,7 @@ const refresh: ExpressGenericRequestHandler<AuthRefreshBody> = async (req, res) 
 	}
 
 	/// TODO: error handling
-	const decodedJWT = verify(token, process.env.JWT_REFRESH_TOKEN_SECRET!) as JWTUserRefresh;
+	const decodedJWT = verify(token, JWT_TOKEN_SECRET) as JWTUserRefresh;
 	if (!decodedJWT) {
 		return res.status(401).json({ message: "Invalid refresh token." });
 	}
