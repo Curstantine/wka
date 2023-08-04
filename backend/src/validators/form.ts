@@ -11,9 +11,10 @@ export const formPostBodySchema: JSONSchemaType<FormPOSTBody> = {
 			type: "array",
 			items: {
 				type: "object",
-				required: ["type", "data"],
+				required: ["type", "title", "data"],
 				properties: {
 					type: { $ref: "#/definitions/QuestionTypeReflect" },
+					title: { type: "string" },
 					data: {
 						anyOf: [
 							{

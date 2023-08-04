@@ -6,7 +6,13 @@ import { verify } from "jsonwebtoken";
 import { JWT_REFRESH_TOKEN_SECRET } from "../constants";
 import { prepareRefreshToken, prepareSessionToken } from "../controllers/auth";
 import { handlePrismaErrors } from "../errors/prisma";
-import { AuthLoginBody, AuthRefreshBody, AuthRegisterRequestBody, JWTUser, JWTUserRefresh } from "../types/auth";
+import {
+	AuthLoginBody,
+	AuthRefreshBody,
+	AuthRegisterRequestBody,
+	JWTUser,
+	JWTUserRefresh,
+} from "../types/auth";
 import { ExpressAppLocals, ExpressGenericRequestHandler } from "../types/express";
 
 const router = Router();
@@ -17,7 +23,9 @@ const register: ExpressGenericRequestHandler<AuthRegisterRequestBody> = async (r
 	const { email, username, password } = req.body;
 
 	if (!email || !username || !password) {
-		return res.status(400).json({ message: "Email, user and password is required to create an account." });
+		return res.status(400).json({
+			message: "Email, user and password is required to create an account.",
+		});
 	}
 
 	let userId: string;
@@ -37,7 +45,9 @@ const register: ExpressGenericRequestHandler<AuthRegisterRequestBody> = async (r
 		userId = user.id;
 	} catch (e) {
 		debug(e);
-		const error = handlePrismaErrors(e, { alreadyExistsMessage: "User with this email already exists!" });
+		const error = handlePrismaErrors(e, {
+			alreadyExistsMessage: "User with this email already exists!",
+		});
 		return res.status(error.code).json({ message: error.message });
 	}
 

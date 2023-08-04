@@ -5,6 +5,7 @@ export interface FormPOSTBody {
 
 export interface FormQuestion<Type extends QuestionTypeReflect> {
 	type: QuestionTypeReflect;
+	title: string;
 	data: FormQuestionData[Type];
 }
 
