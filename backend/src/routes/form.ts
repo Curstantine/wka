@@ -47,9 +47,9 @@ function convertToPrismaQuestion<T extends QuestionTypeReflect>(
 					question: q.question,
 					type: q.type,
 					opts: {
-						max: opts.max ?? null,
-						min: opts.min ?? null,
-						values: opts.values ?? [],
+						max: opts.max || null,
+						min: opts.min || null,
+						values: opts.values || [],
 					},
 				};
 			});

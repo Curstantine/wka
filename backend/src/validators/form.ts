@@ -55,7 +55,7 @@ export const formPostBodySchema: JSONSchemaType<FormPOSTBody> = {
 				sentence: { type: "string" },
 			},
 		},
-		// @ts-expect-error  check anyof here
+		// @ts-expect-error
 		ComprehensionQuestionDataReflect: {
 			type: "object",
 			required: ["content", "questions"],
@@ -68,6 +68,7 @@ export const formPostBodySchema: JSONSchemaType<FormPOSTBody> = {
 				},
 			},
 		},
+		// @ts-expect-error - messed up unions frfr
 		ComprehensionQuestionReflect: {
 			type: "object",
 			required: ["question", "type", "opts"],
@@ -75,8 +76,6 @@ export const formPostBodySchema: JSONSchemaType<FormPOSTBody> = {
 				question: { type: "string" },
 				type: { $ref: "#/definitions/QuestionTypeFormatReflect" },
 				opts: {
-					type: "object",
-					required: [],
 					anyOf: [
 						{ $ref: "#/definitions/ComprehensionQuestionValuesOpts" },
 						{ $ref: "#/definitions/ComprehensionQuestionMinMaxOpts" },
