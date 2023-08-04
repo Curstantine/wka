@@ -23,9 +23,8 @@ const router = Router();
 const debug = debugUtils("backend:route:form");
 
 function convertToPrismaQuestion<T extends QuestionTypeReflect>(
-	formId: string,
 	self: FormQuestion<T>,
-): Prisma.QuestionCreateManyInput {
+): Prisma.QuestionUncheckedCreateWithoutFormInput {
 	let categorize: CategorizeQuestionData[] = [];
 	let cloze: ClozeQuestionData | null = null;
 	let comprehension: ComprehensionQuestionData | null = null;
@@ -60,7 +59,6 @@ function convertToPrismaQuestion<T extends QuestionTypeReflect>(
 	}
 
 	return {
-		formId,
 		type: self.type,
 		title: self.title,
 		data: { categorize, cloze, comprehension },
@@ -74,16 +72,12 @@ const create: ExpressGenericRequestHandler<FormPOSTBody> = async (req, res) => {
 	try {
 		const { title, questions } = req.body;
 
-		// await prisma.question.createMany({
-		// 	data: questions.map((q) => convertToPrismaQuestion(user.id, q)),
-		// });
-
 		await prisma.form.create({
 			data: {
 				title,
 				userId: user.id,
 				questions: {
-					create: questions.map((q) => convertToPrismaQuestion(user.id, q)),
+					create: questions.map((q) => convertToPrismaQuestion(q)),
 				},
 			},
 		});
