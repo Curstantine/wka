@@ -115,5 +115,5 @@ type ComprehensionQuestionOpts {
 
   /// Options for the question.
   /// Only used for SELECT and MULTI_SELECT
-  opts String[]
+  values String[]
 }

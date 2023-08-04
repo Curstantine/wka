@@ -1,4 +1,7 @@
 {
 	"editor.rulers": [100],
-	"editor.defaultFormatter": "dprint.dprint"
+	"editor.defaultFormatter": "dprint.dprint",
+	"cSpell.words": [
+		"CLOZE"
+	]
 }
