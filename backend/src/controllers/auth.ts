@@ -48,8 +48,11 @@ export const authenticate: ExpressGenericRequestHandler = async (req, res, next)
 	}
 
 	if (Date.now() > decodedJWT.exp! * 1000) {
-		return res.status(401).json({ message: "Session token has expired, please refresh the token" });
+		return res.status(401).json({
+			message: "Session token has expired, please refresh the token",
+		});
 	}
 
 	res.locals.user = decodedJWT;
+	return next();
 };

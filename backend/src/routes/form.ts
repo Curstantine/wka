@@ -8,6 +8,7 @@ const router = Router();
 const debug = debugUtils("backend:route:form");
 
 const create: ExpressGenericRequestHandler = async (req, res) => {
+	res.status(200).json({ message: "Form created" });
 };
 
 router.post("/create", [authenticate], create);

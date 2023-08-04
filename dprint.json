@@ -1,6 +1,7 @@
 {
 	"useTabs": true,
 	"indentWidth": 4,
+	"lineWidth": 100,
 	"excludes": [
 		"**/node_modules",
 		"**/*-lock.json"
