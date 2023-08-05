@@ -9,7 +9,7 @@ export class Result<T> implements ResultInterface<T> {
 	data?: T;
 	error?: APIError;
 
-	constructor(data?: T, error?: APIError) {
+	private constructor(data?: T, error?: APIError) {
 		this.data = data;
 		this.error = error;
 	}

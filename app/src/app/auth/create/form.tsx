@@ -1,17 +1,53 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+import ErrorCard from "@/components/ErrorCard";
 import InputField from "@/components/InputField";
+
+import { register } from "@/api/auth";
+import { APIError } from "@/api/generic";
+import { setBrowserCookie } from "@/utils/cookies";
 import { email, minLength, required } from "@/utils/validators";
 
-export default function Form() {
-	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const useSubmit = () => {
+	const router = useRouter();
+	const [error, setError] = useState<APIError | null>(null);
+
+	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+		const username = formData.get("username") as string;
+		const email = formData.get("email") as string;
+		const password = formData.get("password") as string;
+
+		const result = await register(username, email, password);
+		if (result.error) {
+			return setError(result.error!);
+		}
+
+		localStorage.setItem("refreshToken", result.data!.refreshToken);
+		setBrowserCookie(
+			"sessionToken",
+			result.data!.sessionToken,
+			60 * 60 * 1000,
+		);
+
+		router.push("/");
 	};
 
+	return { error, submit };
+};
+
+export default function Form() {
+	const { error, submit } = useSubmit();
+
 	return (
-		<form className="flex flex-col h-full gap-4" onSubmit={onSubmit}>
+		<form className="flex flex-col h-full gap-4" onSubmit={submit}>
+			{error && <ErrorCard error={error!} />}
 			<InputField
 				label="Username"
 				name={"username"}

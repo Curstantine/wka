@@ -33,3 +33,30 @@ export async function login(
 		}
 	}
 }
+
+export async function register(
+	username: string,
+	email: string,
+	password: string,
+): Promise<Result<AuthLoginResponseData>> {
+	const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/register`;
+
+	try {
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ username, email, password }),
+		});
+
+		const json = await response.json();
+		return Result.fromAPIResult<AuthLoginResponseData>(json);
+	} catch (error) {
+		if (error instanceof Error) {
+			return Result.error({ message: error.message });
+		} else {
+			return Result.error({ message: "Unknown error", context: error!.toString() });
+		}
+	}
+}
