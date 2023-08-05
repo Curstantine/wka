@@ -1,3 +1,4 @@
+// --- GET ---
 export interface FormGETParams {
 	id: string;
 }
@@ -8,6 +9,9 @@ export interface FormResponse {
 	createdAt: string;
 	updatedAt: string;
 	userId: string;
+}
+
+export interface FormResponseWithQuestions extends FormResponse {
 	questions: FormQuestionResponse<QuestionTypeReflect>[];
 }
 

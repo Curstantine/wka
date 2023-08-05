@@ -15,16 +15,17 @@ import { ResponseResult } from "../controllers/response";
 import { handlePrismaErrors } from "../errors/prisma";
 import type { ExpressAppLocals, ExpressGenericRequestHandler } from "../types/express";
 import {
-	CategorizeQuestionDataReflect,
+	type CategorizeQuestionDataReflect,
 	type ComprehensionQuestionCompleteOpts,
-	ComprehensionQuestionDataReflect,
-	ComprehensionQuestionReflect,
-	FormGETParams,
+	type ComprehensionQuestionDataReflect,
+	type ComprehensionQuestionReflect,
+	type FormGETParams,
 	type FormPOSTBody,
 	type FormQuestion,
-	FormQuestionData,
-	FormQuestionResponse,
-	FormResponse,
+	type FormQuestionData,
+	type FormQuestionResponse,
+	type FormResponse,
+	type FormResponseWithQuestions,
 	QuestionTypeFormatReflect,
 	QuestionTypeReflect,
 } from "../types/form";
@@ -121,7 +122,7 @@ function convertToSelfQuestion<T extends QuestionTypeReflect>(
 	};
 }
 
-const get: ExpressGenericRequestHandler<unknown, FormGETParams, FormResponse> = async (
+const get: ExpressGenericRequestHandler<unknown, FormGETParams, FormResponseWithQuestions> = async (
 	req,
 	res,
 ) => {
@@ -146,6 +147,42 @@ const get: ExpressGenericRequestHandler<unknown, FormGETParams, FormResponse> = 
 			updatedAt: form.updatedAt.toISOString(),
 			questions: form.questions.map((q) => convertToSelfQuestion(q)),
 		}));
+	} catch (e) {
+		debug(e);
+		const error = handlePrismaErrors(e, {});
+		return res.status(error.code).json(ResponseResult.error(error));
+	}
+};
+
+const listByUser: ExpressGenericRequestHandler<
+	unknown,
+	unknown,
+	FormResponse[]
+> = async (
+	req,
+	res,
+) => {
+	const { prisma } = req.app.locals as ExpressAppLocals;
+	const user = res.locals.user!; // <- We already have an auth guard for this.
+
+	try {
+		const forms = await prisma.form.findMany({
+			where: {
+				userId: user.id,
+			},
+		});
+
+		const data: FormResponse[] = forms.map((x) => {
+			return {
+				id: x.id,
+				title: x.title,
+				createdAt: x.createdAt.toISOString(),
+				updatedAt: x.updatedAt.toISOString(),
+				userId: x.userId,
+			};
+		});
+
+		return res.status(200).json(ResponseResult.ok(data));
 	} catch (e) {
 		debug(e);
 		const error = handlePrismaErrors(e, {});
@@ -179,6 +216,7 @@ const create: ExpressGenericRequestHandler<FormPOSTBody> = async (req, res) => {
 };
 
 router.get("/:id", get);
+router.get("/user/list", [authenticate], listByUser);
 router.post("/create", [authenticate, validateFormBody], create);
 
 export default router;
