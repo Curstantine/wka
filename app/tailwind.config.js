@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
@@ -12,7 +14,30 @@ module.exports = {
 				"gradient-conic":
 					"conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
 			},
+			transitionTimingFunction: {
+				emphasized: "cubic-bezier(0.4, 0.0, 0.2, 1.0)",
+				standard: "cubic-bezier(0.2, 0.0, 0, 1.0)",
+				"standard-decelerate": "cubic-bezier(0, 0, 0, 1)",
+				"standard-accelerate": "cubic-bezier(0.3, 0, 1, 1)",
+			},
 		},
 	},
-	plugins: [],
+	plugins: [
+		plugin(({ addComponents, theme }) => {
+			const buttons = {
+				".btn-primary": {
+					"height": theme("height.10"),
+					"display": "inline-flex",
+					"alignItems": "center",
+					"justifyContent": "center",
+					"borderRadius": theme("borderRadius.md"),
+					"backgroundColor": theme("colors.pink.100"),
+					"color": theme("colors.pink.900"),
+					"fontWeight": theme("fontWeight.medium"),
+				},
+			};
+
+			addComponents(buttons);
+		}),
+	],
 };

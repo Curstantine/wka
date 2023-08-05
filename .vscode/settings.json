@@ -3,6 +3,7 @@
 	"editor.defaultFormatter": "dprint.dprint",
 	"cSpell.words": [
 		"Attributify",
-		"CLOZE"
+		"CLOZE",
+		"clsx"
 	]
 }
