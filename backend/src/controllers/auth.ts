@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { JWT_REFRESH_TOKEN_SECRET, JWT_TOKEN_SECRET } from "../constants";
 import { JWTUser, JWTUserRefresh } from "../types/auth";
 import { ExpressGenericRequestHandler } from "../types/express";
+import { ResponseResult } from "./response";
 
 const debug = debugUtils("backend:controller:auth");
 
@@ -36,7 +37,7 @@ export const authenticate: ExpressGenericRequestHandler = async (req, res, next)
 	const token = req.headers.authorization?.split(" ")[1];
 
 	if (!token) {
-		return res.status(401).json({ message: "Unauthorized" });
+		return res.status(401).json(ResponseResult.error({ message: "Unauthorized" }));
 	}
 
 	let decodedJWT: JWTUser;
@@ -44,13 +45,13 @@ export const authenticate: ExpressGenericRequestHandler = async (req, res, next)
 		decodedJWT = jwt.verify(token, JWT_TOKEN_SECRET) as JWTUser;
 	} catch (e) {
 		debug(e);
-		return res.status(401).json({ message: "Invalid refresh token" });
+		return res.status(401).json(ResponseResult.error({ message: "Invalid refresh token" }));
 	}
 
 	if (Date.now() > decodedJWT.exp! * 1000) {
-		return res.status(401).json({
+		return res.status(401).json(ResponseResult.error({
 			message: "Session token has expired, please refresh the token",
-		});
+		}));
 	}
 
 	res.locals.user = decodedJWT;

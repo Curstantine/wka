@@ -11,4 +11,16 @@ export interface ExpressAppLocals {
 	prisma: PrismaClient;
 }
 
-export type ExpressGenericRequestHandler<ReqBody = {}> = RequestHandler<{}, {}, ReqBody, {}, ExpressRequestLocals>;
+export interface ExpressResponseResult<T> {
+	type: "ok" | "error";
+	error?: { message: string; context?: string };
+	data?: T;
+}
+
+export type ExpressGenericRequestHandler<ReqBody = {}, Params = {}, ResBody = {}> = RequestHandler<
+	Params,
+	ExpressResponseResult<ResBody>,
+	ReqBody,
+	{},
+	ExpressRequestLocals
+>;

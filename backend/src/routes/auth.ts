@@ -5,6 +5,7 @@ import { verify } from "jsonwebtoken";
 
 import { JWT_REFRESH_TOKEN_SECRET } from "../constants";
 import { prepareRefreshToken, prepareSessionToken } from "../controllers/auth";
+import { ResponseResult } from "../controllers/response";
 import { handlePrismaErrors } from "../errors/prisma";
 import {
 	AuthLoginBody,
@@ -23,9 +24,9 @@ const register: ExpressGenericRequestHandler<AuthRegisterRequestBody> = async (r
 	const { email, username, password } = req.body;
 
 	if (!email || !username || !password) {
-		return res.status(400).json({
+		return res.status(400).json(ResponseResult.error({
 			message: "Email, user and password is required to create an account.",
-		});
+		}));
 	}
 
 	let userId: string;
@@ -48,7 +49,7 @@ const register: ExpressGenericRequestHandler<AuthRegisterRequestBody> = async (r
 		const error = handlePrismaErrors(e, {
 			alreadyExistsMessage: "User with this email already exists!",
 		});
-		return res.status(error.code).json({ message: error.message });
+		return res.status(error.code).json(ResponseResult.error(error));
 	}
 
 	const { sessionJWT, sessionToken } = prepareSessionToken(userId, email);
@@ -65,10 +66,10 @@ const register: ExpressGenericRequestHandler<AuthRegisterRequestBody> = async (r
 	} catch (e) {
 		debug(e);
 		const error = handlePrismaErrors(e, {});
-		return res.status(error.code).json({ message: error.message });
+		return res.status(error.code).json(ResponseResult.error(error));
 	}
 
-	res.status(200).json({ sessionToken, refreshToken });
+	res.status(200).json(ResponseResult.ok({ sessionToken, refreshToken }));
 };
 
 const login: ExpressGenericRequestHandler<AuthLoginBody> = async (req, res) => {
@@ -76,7 +77,9 @@ const login: ExpressGenericRequestHandler<AuthLoginBody> = async (req, res) => {
 	const { email, password } = req.body;
 
 	if (!email || !password) {
-		return res.status(400).json({ message: "Email and password is required to login." });
+		return res.status(400).json(
+			ResponseResult.error({ message: "Email and password is required to login." }),
+		);
 	}
 
 	let userId: string;
@@ -92,18 +95,20 @@ const login: ExpressGenericRequestHandler<AuthLoginBody> = async (req, res) => {
 		});
 
 		if (!user) {
-			return res.status(401).json({ message: "A user by this email does not exist." });
+			return res.status(401).json(
+				ResponseResult.error({ message: "A user by this email does not exist." }),
+			);
 		}
 
 		if (!await compare(password, user.passwordHash)) {
-			return res.status(401).json({ message: "Incorrect password." });
+			return res.status(401).json(ResponseResult.error({ message: "Incorrect password." }));
 		}
 
 		userId = user.id;
 	} catch (e) {
 		debug(e);
 		const error = handlePrismaErrors(e, {});
-		return res.status(error.code).json({ message: error.message });
+		return res.status(error.code).json(ResponseResult.error(error));
 	}
 
 	const { sessionJWT, sessionToken } = prepareSessionToken(userId, email);
@@ -126,10 +131,10 @@ const login: ExpressGenericRequestHandler<AuthLoginBody> = async (req, res) => {
 	} catch (e) {
 		debug(e);
 		const error = handlePrismaErrors(e, {});
-		return res.status(error.code).json({ message: error.message });
+		return res.status(error.code).json(ResponseResult.error(error));
 	}
 
-	res.status(200).json({ sessionToken, refreshToken });
+	res.status(200).json(ResponseResult.ok({ sessionToken, refreshToken }));
 };
 
 const refresh: ExpressGenericRequestHandler<AuthRefreshBody> = async (req, res) => {
@@ -137,24 +142,27 @@ const refresh: ExpressGenericRequestHandler<AuthRefreshBody> = async (req, res) 
 	const { token } = req.body;
 
 	if (!token) {
-		return res.status(400).json({ message: "Refresh token is required to refresh." });
+		return res.status(400).json(
+			ResponseResult.error({ message: "Refresh token is required to refresh." }),
+		);
 	}
 
-	/// TODO: error handling
 	let decodedJWT: JWTUserRefresh;
 	try {
 		decodedJWT = verify(token, JWT_REFRESH_TOKEN_SECRET) as JWTUserRefresh;
 	} catch (e) {
 		debug(e);
-		return res.status(401).json({ message: "Invalid refresh token." });
+		return res.status(401).json(ResponseResult.error({ message: "Invalid refresh token." }));
 	}
 
 	if (Date.now() > decodedJWT.exp! * 1000) {
-		return res.status(401).json({ message: "Refresh token has expired. Please login again." });
+		return res.status(401).json(
+			ResponseResult.error({ message: "Refresh token has expired. Please login again." }),
+		);
 	}
 
 	const { sessionToken } = prepareSessionToken(decodedJWT.id, decodedJWT.email);
-	return res.status(200).json({ sessionToken });
+	return res.status(200).json(ResponseResult.ok({ sessionToken }));
 };
 
 router.post("/register", register);

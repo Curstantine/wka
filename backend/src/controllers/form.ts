@@ -4,6 +4,7 @@ import debugUtils from "debug";
 import { ExpressGenericRequestHandler } from "../types/express";
 import { FormPOSTBody } from "../types/form";
 import { formPostBodySchema } from "../validators/form";
+import { ResponseResult } from "./response";
 
 const debug = debugUtils("backend:controller:form");
 
@@ -26,10 +27,10 @@ export const validateFormBody: ExpressGenericRequestHandler<FormPOSTBody> = (req
 			ctxMessage = `Unknown error: ${error?.keyword} [at ${error?.instancePath}]`;
 		}
 
-		return res.status(400).json({
+		return res.status(400).json(ResponseResult.error({
 			message: "Invalid body",
 			context: ctxMessage,
-		});
+		}));
 	}
 
 	return next();

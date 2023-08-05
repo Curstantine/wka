@@ -1,3 +1,21 @@
+export interface FormGETParams {
+	id: string;
+}
+
+export interface FormResponse {
+	id: string;
+	title: string;
+	createdAt: string;
+	updatedAt: string;
+	userId: string;
+	questions: FormQuestionResponse<QuestionTypeReflect>[];
+}
+
+export interface FormQuestionResponse<T extends QuestionTypeReflect> extends FormQuestion<T> {
+	id: string;
+}
+
+// --- POST ---
 export interface FormPOSTBody {
 	title: string;
 	questions: FormQuestion<QuestionTypeReflect>[];
