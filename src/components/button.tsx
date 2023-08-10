@@ -8,7 +8,6 @@ type TextAnimatedButtonProps = {
 export function TextAnimatedButton({ text }: TextAnimatedButtonProps) {
 	const [props, set] = useSpring(() => ({
 		from: { y: 0 },
-		to: { y: 1 },
 		config: { duration: 400, easing: (t) => t * (2 - t) },
 	}));
 
@@ -59,7 +58,6 @@ type ArrowButtonProps = {
 export function ArrowButton({ reversed = false, onClick }: ArrowButtonProps) {
 	const [props, set] = useSpring(() => ({
 		from: { x: 0 },
-		to: { x: 1 },
 		config: { duration: 400, easing: (t) => t * (2 - t) },
 	}));
 
@@ -99,7 +97,6 @@ export function ArrowButton({ reversed = false, onClick }: ArrowButtonProps) {
 export function GoToTopButton() {
 	const [props, set] = useSpring(() => ({
 		from: { y: 0 },
-		to: { y: 1 },
 		config: { duration: 300, easing: (t) => t * (2 - t) },
 	}));
 

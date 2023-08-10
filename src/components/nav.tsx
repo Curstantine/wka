@@ -5,7 +5,6 @@ import { useEffect } from "react";
 export function CollapsibleNavigationBar() {
 	const [props, set] = useSpring(() => ({
 		from: { y: 0 },
-		to: { y: 1 },
 		config: { duration: 300, easing: (t) => t * (2 - t) },
 	}));
 
@@ -75,7 +74,6 @@ export function NavigationShell({ className = "" }) {
 const WeirdAhhNavigationExpandButton = () => {
 	const [props, set] = useSpring(() => ({
 		from: { x: 0 },
-		to: { x: 1 },
 		config: { duration: 300, easing: (t) => t * (2 - t) },
 	}));
 
