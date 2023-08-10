@@ -4,7 +4,7 @@ import WhiteRingImg from "../assets/white-ring.png";
 
 export default function Rings() {
 	return (
-		<div id="rings" className="flex flex-col items-center mt-48">
+		<div id="rings" className="flex flex-col items-center pt-48">
 			<div className="grid grid-cols-3 gap-24">
 				{rings.map((ring) => <RingComponent key={ring.title!} {...ring} />)}
 			</div>

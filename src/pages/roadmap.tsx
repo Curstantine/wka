@@ -5,7 +5,7 @@ import Phase4Img from "../assets/phase-4.png";
 
 export default function Roadmap() {
 	return (
-		<div id="roadmap" className="flex flex-col items-center mt-48">
+		<div id="roadmap" className="flex flex-col items-center pt-48">
 			<img src="/logo.png" className="w-24 h-24" alt="logo" />
 			<h2 className="font-rubik font-bold text-4xl uppercase tracking-wider mt-2 mb-8">Roadmap</h2>
 			<div className="grid grid-cols-4 gap-4">
