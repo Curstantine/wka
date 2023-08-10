@@ -1,7 +1,7 @@
 import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
 
-export default function NavigationShell() {
+export default function NavigationShell({ className = "" }) {
 	const destinations = [
 		"Home",
 		"About",
@@ -14,9 +14,9 @@ export default function NavigationShell() {
 	];
 
 	return (
-		<div className="flex items-center mx-4">
+		<div className={clsx("flex items-center mx-4", className)}>
 			<img src="/logo.png" alt="logo" className="w-12 h-12" />
-			<div className="flex-1 inline-flex justify-end gap-6">
+			<div className="flex-1 inline-flex justify-end gap-8">
 				{destinations.map((destination) => (
 					<a
 						href="/"

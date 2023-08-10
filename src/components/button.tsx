@@ -50,8 +50,12 @@ export function TextAnimatedButton({ text }: TextAnimatedButtonProps) {
 		</button>
 	);
 }
+type ArrowButtonProps = {
+	reversed?: boolean;
+	onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+};
 
-export function ArrowButton({ reversed = false }) {
+export function ArrowButton({ reversed = false, onClick }: ArrowButtonProps) {
 	const [props, set] = useSpring(() => ({
 		from: { x: 0 },
 		to: { x: 1 },
@@ -65,6 +69,7 @@ export function ArrowButton({ reversed = false }) {
 		<animated.button
 			onMouseEnter={onEnter}
 			onMouseLeave={onLeave}
+			onClick={onClick}
 			style={{
 				transformOrigin: "center",
 				translateX: props.x.to({
@@ -80,7 +85,9 @@ export function ArrowButton({ reversed = false }) {
 				height="50"
 				viewBox="0 0 39 50"
 				xmlSpace="preserve"
-				className={clsx("fill-current text-white", reversed && "transform rotate-180")}
+				className={clsx({
+					"transform rotate-180": reversed,
+				})}
 			>
 				<path d="M38.9 50 0 25.1 38.9.3V50zm-24-24.9L31 35.4V14.9L14.9 25.1z"></path>
 			</svg>
