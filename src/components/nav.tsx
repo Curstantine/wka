@@ -40,23 +40,23 @@ export function CollapsibleNavigationBar() {
 }
 export function NavigationShell({ className = "" }) {
 	const destinations = [
-		"Home",
-		"About",
-		"KRKNomics",
-		"Roadmap",
-		"Team",
-		"Ring of KRKN",
-		"Articles",
-		"Join Us",
+		["Home", "/"],
+		["About", "#about"],
+		["KRKNomics", "#krknomics"],
+		["Roadmap", "#roadmap"],
+		["Team", "#team"],
+		["Ring of KRKN", "#rings"],
+		["Articles", "#articles"],
+		["Join Us", "#join"],
 	];
 
 	return (
 		<div className={clsx("flex items-center mx-4", className)}>
 			<img src="/logo.png" alt="logo" className="w-12 h-12" />
 			<div className="flex-1 inline-flex justify-end gap-8">
-				{destinations.map((destination) => (
+				{destinations.map(([destination, href]) => (
 					<a
-						href="/"
+						href={href}
 						className={clsx(
 							"font-rubik font-bold text-lg h-fit uppercase",
 							"border-b-6 border-b-solid border-b-white",
