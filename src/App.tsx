@@ -1,3 +1,4 @@
+import Footer from "./components/footer";
 import Articles from "./pages/articles";
 import Contract from "./pages/contract";
 import Hero from "./pages/hero";
@@ -16,6 +17,8 @@ function App() {
 			<Rings />
 			<Articles />
 			<Join />
+			<Footer />
+			<div className="h-8" />
 		</>
 	);
 }
