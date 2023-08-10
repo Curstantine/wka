@@ -1,6 +1,7 @@
 import Contract from "./pages/contract";
 import Hero from "./pages/hero";
 import Krknomics from "./pages/krknomics";
+import Rings from "./pages/rings";
 import Roadmap from "./pages/roadmap";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
 			<Contract />
 			<Krknomics />
 			<Roadmap />
+			<Rings />
 		</>
 	);
 }

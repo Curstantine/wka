@@ -71,7 +71,7 @@ type PhaseComponentProps = {
 const PhaseComponent: React.FC<PhaseComponentProps> = ({ key, title, image, points }) => {
 	return (
 		<div key={key} className="flex flex-col items-center w-64">
-			<img src={image} alt={title} />
+			<img src={image} alt={title} className="w-56" />
 			<h3 className="font-rubik font-bold text-2xl uppercase tracking-wider mt-2 mb-8">{title}</h3>
 			<ul>
 				{points.map((point, index) => <li key={index} className="text-neutral-400">{point}</li>)}
