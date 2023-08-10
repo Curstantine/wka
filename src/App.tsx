@@ -1,4 +1,5 @@
 import Footer from "./components/footer";
+import { CollapsibleNavigationBar } from "./components/nav";
 import Articles from "./pages/articles";
 import Contract from "./pages/contract";
 import Hero from "./pages/hero";
@@ -10,6 +11,7 @@ import Roadmap from "./pages/roadmap";
 function App() {
 	return (
 		<>
+			<CollapsibleNavigationBar />
 			<Hero />
 			<Contract />
 			<Krknomics />

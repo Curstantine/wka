@@ -2,7 +2,7 @@ import { animated, useSpring } from "@react-spring/web";
 import { useState } from "react";
 
 import { ArrowButton, TextAnimatedButton } from "../components/button";
-import NavigationShell from "../components/nav";
+import { NavigationShell } from "../components/nav";
 
 import clsx from "clsx";
 import Hero0BG from "../assets/hero-0.png";

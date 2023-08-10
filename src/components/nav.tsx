@@ -1,7 +1,45 @@
 import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
+import { useEffect } from "react";
 
-export default function NavigationShell({ className = "" }) {
+export function CollapsibleNavigationBar() {
+	const [props, set] = useSpring(() => ({
+		from: { y: 0 },
+		to: { y: 1 },
+		config: { duration: 300, easing: (t) => t * (2 - t) },
+	}));
+
+	useEffect(() => {
+		const onScroll = () => {
+			const scrollY = window.scrollY;
+
+			if (scrollY > 250) {
+				set({ y: 1 });
+			} else {
+				set({ y: 0 });
+			}
+		};
+
+		window.addEventListener("scroll", onScroll);
+		return () => window.removeEventListener("scroll", onScroll);
+	}, [set]);
+
+	return (
+		<animated.nav
+			className="fixed top-0 inset-x-0 h-24 px-12 bg-black border-b-1 border-b-solid border-b-white z-20"
+			style={{
+				transformOrigin: "top",
+				translateY: props.y.to({
+					range: [0, 1],
+					output: [-100, 0],
+				}),
+			}}
+		>
+			<NavigationShell className="h-full" />
+		</animated.nav>
+	);
+}
+export function NavigationShell({ className = "" }) {
 	const destinations = [
 		"Home",
 		"About",
