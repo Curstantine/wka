@@ -1,9 +1,9 @@
-// uno.config.ts
-import { defineConfig, presetWebFonts } from "unocss";
+import { defineConfig, presetUno, presetWebFonts } from "unocss";
 import type { Theme } from "unocss/preset-uno";
 
 export default defineConfig<Theme>({
 	presets: [
+		presetUno(),
 		presetWebFonts({
 			fonts: {
 				"mono": ["Space Mono", "monospace"],

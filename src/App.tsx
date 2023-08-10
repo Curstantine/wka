@@ -1,7 +1,9 @@
+import Hero from "./pages/hero";
+
 function App() {
 	return (
 		<>
-			<span>hi</span>
+			<Hero />
 		</>
 	);
 }
