@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export default function Contract() {
 	return (
 		<div className="flex flex-col px-12 py-4">
-			<h2 className="font-rubik font-bold text-3xl uppercase mb-2">Contract</h2>
+			<h2 className="font-rubik font-bold text-3xl uppercase tracking-wide mb-2">Contract</h2>
 			<CopyableCode content="0x2fec5b062c4dad3f2de6abcffc69b524a5010a41" />
 		</div>
 	);
