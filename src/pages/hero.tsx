@@ -5,7 +5,7 @@ import { ArrowButton, TextAnimatedButton } from "../components/button";
 import { NavigationShell } from "../components/nav";
 
 import clsx from "clsx";
-import Hero0BG from "../assets/hero-0.png";
+import Hero0BG from "../assets/hero-0.webp";
 import Hero1BG from "../assets/hero-1.jpg";
 import Hero2BG from "../assets/hero-2.jpg";
 import Hero3BG from "../assets/hero-3.jpg";
