@@ -6,7 +6,18 @@ export default defineConfig<Theme>({
 		presetUno(),
 		presetWebFonts({
 			fonts: {
-				"mono": ["Space Mono", "monospace"],
+				"mono": [
+					{
+						name: "Space Mono",
+						weights: [400, 700],
+					},
+				],
+				"rubik": [
+					{
+						name: "Rubik",
+						weights: [400, 500, 700],
+					}
+				],
 			},
 		}),
 	],
