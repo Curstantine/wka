@@ -1,3 +1,4 @@
+import { GoToTopButton } from "./components/button";
 import Footer from "./components/footer";
 import { CollapsibleNavigationBar } from "./components/nav";
 import Articles from "./pages/articles";
@@ -21,6 +22,7 @@ function App() {
 			<Join />
 			<Footer />
 			<div className="h-8" />
+			<GoToTopButton />
 		</>
 	);
 }
