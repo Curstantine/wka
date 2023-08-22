@@ -2,6 +2,8 @@ import Card from "@/components/Card";
 import CardTitle from "@/components/Card/Title";
 import CheckboxGroup from "@/components/Checkbox";
 import RadioGroup from "@/components/Radio";
+import TextboxArea from "@/components/Textbox/area";
+import TextboxInput from "@/components/Textbox/input";
 
 const options = [
 	["1", "Option 1"],
@@ -40,6 +42,16 @@ export default function App() {
 			<Card>
 				<CardTitle label="Checkbox" required />
 				<CheckboxGroup items={options} />
+			</Card>
+
+			<Card>
+				<CardTitle label="Short Answer" required />
+				<TextboxInput />
+			</Card>
+
+			<Card>
+				<CardTitle label="Paragraph" required />
+				<TextboxArea />
 			</Card>
 		</>
 	);

@@ -13,6 +13,7 @@ export default function RadioGroup(props: Props) {
 		<fieldset className="flex flex-col px-6 pb-4">
 			{props.items.map((item) => (
 				<RadioItem
+					key={item[0]}
 					label={item[1]}
 					selected={selected === item[0]}
 					onPress={() => setSelectedId(item[0])}

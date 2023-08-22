@@ -13,7 +13,7 @@
 
 body {
 	margin: 0;
-	--at-apply: mx-auto pt-3;
+	--at-apply: mx-auto py-3;
 
 	max-width: 640px;
 	min-width: 320px;
@@ -22,4 +22,9 @@ body {
 
 #root {
 	--at-apply: flex flex-col gap-3 mx-auto;
+}
+
+input,
+textarea {
+	--at-apply: outline-none;
 }

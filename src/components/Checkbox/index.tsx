@@ -13,6 +13,7 @@ export default function CheckboxGroup(props: Props) {
 		<fieldset className="flex flex-col px-6 pb-4">
 			{props.items.map((item) => (
 				<CheckboxItem
+					key={item[0]}
 					label={item[1]}
 					selected={selected?.includes(item[0]) ?? false}
 					onPress={() =>
