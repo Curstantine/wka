@@ -1,7 +1,8 @@
 import clsx from "clsx";
+import type { FormEvent } from "react";
 
 export default function Textbox() {
-	const onInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+	const onInput = (e: FormEvent<HTMLTextAreaElement>) => {
 		const element = e.currentTarget;
 		element.style.height = "1px";
 		element.style.height = (element.scrollHeight) + "px";

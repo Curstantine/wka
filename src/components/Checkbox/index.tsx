@@ -3,7 +3,7 @@ import { useState } from "react";
 import CheckboxItem from "./item";
 
 type Props = {
-	items: string[][];
+	items: [string, string][];
 };
 
 export default function CheckboxGroup(props: Props) {

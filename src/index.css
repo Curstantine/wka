@@ -28,3 +28,7 @@ input,
 textarea {
 	--at-apply: outline-none;
 }
+
+button {
+	--at-apply: bg-transparent;
+}

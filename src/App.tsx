@@ -1,11 +1,12 @@
 import Card from "@/components/Card";
 import CardTitle from "@/components/Card/Title";
 import CheckboxGroup from "@/components/Checkbox";
+import Dropdown from "@/components/Dropdown";
 import RadioGroup from "@/components/Radio";
 import TextboxArea from "@/components/Textbox/area";
 import TextboxInput from "@/components/Textbox/input";
 
-const options = [
+const options: [string, string][] = [
 	["1", "Option 1"],
 	["2", "Option 2"],
 	["3", "Option 3"],
@@ -52,6 +53,11 @@ export default function App() {
 			<Card>
 				<CardTitle label="Paragraph" required />
 				<TextboxArea />
+			</Card>
+
+			<Card>
+				<CardTitle label="Dropdown" required />
+				<Dropdown items={options} />
 			</Card>
 		</>
 	);

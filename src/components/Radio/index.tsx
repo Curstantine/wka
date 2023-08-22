@@ -3,7 +3,7 @@ import { useState } from "react";
 import RadioItem from "@/components/Radio/item";
 
 type Props = {
-	items: string[][];
+	items: [string, string][];
 };
 
 export default function RadioGroup(props: Props) {
