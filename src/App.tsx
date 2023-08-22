@@ -1,12 +1,13 @@
 import Card from "@/components/Card";
-import CardTitle from "@/components/CardTitle";
-import List from "@/components/List";
+import CardTitle from "@/components/Card/Title";
+import Radio from "@/components/Radio";
 
 const mcq = [
 	["1", "Option 1"],
 	["2", "Option 2"],
 	["3", "Option 3"],
 ];
+
 export default function App() {
 	return (
 		<>
@@ -29,9 +30,14 @@ export default function App() {
 					*Indicates required question
 				</span>
 			</Card>
+
 			<Card>
 				<CardTitle label="MCQ" required />
-				<List items={mcq} />
+				<Radio items={mcq} />
+			</Card>
+
+			<Card>
+				<CardTitle label="Checkbox" required />
 			</Card>
 		</>
 	);

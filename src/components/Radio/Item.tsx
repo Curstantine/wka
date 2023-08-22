@@ -1,29 +1,12 @@
 import clsx from "clsx";
-import { type FC, useState } from "react";
 
 type Props = {
-	items: string[][];
+	label: string;
+	selected: boolean;
+	onPress: () => void;
 };
 
-export default function List(props: Props) {
-	const [selected, setSelectedId] = useState<string | null>(null);
-
-	return (
-		<fieldset className="flex flex-col px-6 pb-4">
-			{props.items.map((item) => (
-				<ListItem
-					label={item[1]}
-					selected={selected === item[0]}
-					onPress={() => setSelectedId(item[0])}
-				/>
-			))}
-		</fieldset>
-	);
-}
-
-const ListItem: FC<{ label: string; selected: boolean; onPress: () => void }> = (
-	{ label, selected, onPress },
-) => {
+export default function ListItem({ label, selected, onPress }: Props) {
 	return (
 		<div className="flex flex-row items-center h-10" onClick={onPress} aria-checked={selected}>
 			<div className="inline-flex center w-10 h-10 rounded-full transition-colors transition-standard hover:bg-accent/5 active:bg-accent/20">
@@ -43,4 +26,4 @@ const ListItem: FC<{ label: string; selected: boolean; onPress: () => void }> = 
 			<span className="text-(sm text-1) select-none">{label}</span>
 		</div>
 	);
-};
+}
