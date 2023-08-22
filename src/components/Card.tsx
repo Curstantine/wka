@@ -10,7 +10,7 @@ export default function Card({ useAccentedBorder = false, children }: Props) {
 	return (
 		<div
 			className={clsx(
-				"flex flex-col bg-background-primary min-h-32 w-full rounded-lg",
+				"flex flex-col bg-background-primary min-h-32 w-full py-3 rounded-lg",
 				"border-(solid border 1)",
 				{
 					"border-t-(solid accent 10)": useAccentedBorder,

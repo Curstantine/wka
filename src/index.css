@@ -21,5 +21,5 @@ body {
 }
 
 #root {
-	--at-apply: flex flex-col gap-4 mx-auto;
+	--at-apply: flex flex-col gap-3 mx-auto;
 }

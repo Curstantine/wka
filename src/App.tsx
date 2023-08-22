@@ -1,10 +1,17 @@
 import Card from "@/components/Card";
+import CardTitle from "@/components/CardTitle";
+import List from "@/components/List";
 
+const mcq = [
+	["1", "Option 1"],
+	["2", "Option 2"],
+	["3", "Option 3"],
+];
 export default function App() {
 	return (
 		<>
 			<Card useAccentedBorder>
-				<h1 className="font-roboto text-(3xl text-1) p-(x-6 y-4) decorative-b">
+				<h1 className="font-roboto text-(3xl text-1) p-(x-6 b-4 t-1) decorative-b">
 					Assignment Task
 				</h1>
 				<div className="p-(x-6 y-3) decorative-b">
@@ -18,11 +25,13 @@ export default function App() {
 						and submit this form. Your email is not part of your response.
 					</p>
 				</div>
-				<span className="p-(x-6 t-3 b-4) text-(sm error)">
+				<span className="p-(x-6 t-3) text-(sm error)">
 					*Indicates required question
 				</span>
 			</Card>
 			<Card>
+				<CardTitle label="MCQ" required />
+				<List items={mcq} />
 			</Card>
 		</>
 	);

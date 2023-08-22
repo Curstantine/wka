@@ -5,9 +5,9 @@ type Props = {
 
 export default function CardTitle({ label, required = false }: Props) {
 	return (
-		<div className="flex items-center h-12">
-			<h2>{label}</h2>
-			{label && <span>*</span>}
+		<div className="flex items-center px-6 h-12">
+			<h2 className="text-text-1">{label}</h2>
+			{required && <span className="ml-1 text-error">*</span>}
 		</div>
 	);
 }
