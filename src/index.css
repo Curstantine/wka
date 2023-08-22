@@ -1,0 +1,21 @@
+:root {
+	font-family: "Roboto", system-ui, Avenir, Helvetica, Arial, sans-serif;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+
+	color-scheme: light;
+
+	--at-apply: bg-background-secondary;
+}
+
+body {
+	margin: 0;
+	--at-apply: flex flex-col mx-auto mt-4;
+
+	max-width: 640px;
+	min-width: 320px;
+	min-height: 100vh;
+}
