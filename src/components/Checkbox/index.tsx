@@ -7,15 +7,20 @@ type Props = {
 };
 
 export default function CheckboxGroup(props: Props) {
-	const [selected, setSelectedId] = useState<string | null>(null);
+	const [selected, setSelectedId] = useState<string[] | null>(null);
 
 	return (
 		<fieldset className="flex flex-col px-6 pb-4">
 			{props.items.map((item) => (
 				<CheckboxItem
 					label={item[1]}
-					selected={selected === item[0]}
-					onPress={() => setSelectedId(item[0])}
+					selected={selected?.includes(item[0]) ?? false}
+					onPress={() =>
+						setSelectedId((prev) => {
+							if (prev === null) return [item[0]];
+							if (prev.includes(item[0])) return prev.filter((id) => id !== item[0]);
+							return [...prev, item[0]];
+						})}
 				/>
 			))}
 		</fieldset>

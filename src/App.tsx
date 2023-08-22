@@ -1,8 +1,9 @@
 import Card from "@/components/Card";
 import CardTitle from "@/components/Card/Title";
+import CheckboxGroup from "@/components/Checkbox";
 import RadioGroup from "@/components/Radio";
 
-const mcq = [
+const options = [
 	["1", "Option 1"],
 	["2", "Option 2"],
 	["3", "Option 3"],
@@ -33,11 +34,12 @@ export default function App() {
 
 			<Card>
 				<CardTitle label="MCQ" required />
-				<RadioGroup items={mcq} />
+				<RadioGroup items={options} />
 			</Card>
 
 			<Card>
 				<CardTitle label="Checkbox" required />
+				<CheckboxGroup items={options} />
 			</Card>
 		</>
 	);
