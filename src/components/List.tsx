@@ -25,7 +25,7 @@ const ListItem: FC<{ label: string; selected: boolean; onPress: () => void }> = 
 	{ label, selected, onPress },
 ) => {
 	return (
-		<div className="flex flex-row items-center gap-3 h-10" onClick={onPress} aria-checked={selected}>
+		<div className="flex flex-row items-center h-10" onClick={onPress} aria-checked={selected}>
 			<div className="inline-flex center w-10 h-10 rounded-full transition-colors transition-standard hover:bg-accent/5 active:bg-accent/20">
 				<div className="inline-flex center rounded-full h-5 w-5 border-(solid 2 text-2)">
 					<div
