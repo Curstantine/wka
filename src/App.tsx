@@ -1,6 +1,6 @@
 import Card from "@/components/Card";
 import CardTitle from "@/components/Card/Title";
-import Radio from "@/components/Radio";
+import RadioGroup from "@/components/Radio";
 
 const mcq = [
 	["1", "Option 1"],
@@ -33,7 +33,7 @@ export default function App() {
 
 			<Card>
 				<CardTitle label="MCQ" required />
-				<Radio items={mcq} />
+				<RadioGroup items={mcq} />
 			</Card>
 
 			<Card>

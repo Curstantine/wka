@@ -1,18 +1,18 @@
 import { useState } from "react";
 
-import RadioItem from "@/components/Radio/item";
+import CheckboxItem from "./item";
 
 type Props = {
 	items: string[][];
 };
 
-export default function RadioGroup(props: Props) {
+export default function CheckboxGroup(props: Props) {
 	const [selected, setSelectedId] = useState<string | null>(null);
 
 	return (
 		<fieldset className="flex flex-col px-6 pb-4">
 			{props.items.map((item) => (
-				<RadioItem
+				<CheckboxItem
 					label={item[1]}
 					selected={selected === item[0]}
 					onPress={() => setSelectedId(item[0])}

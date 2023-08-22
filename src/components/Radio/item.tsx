@@ -6,7 +6,7 @@ type Props = {
 	onPress: () => void;
 };
 
-export default function ListItem({ label, selected, onPress }: Props) {
+export default function RadioItem({ label, selected, onPress }: Props) {
 	return (
 		<div className="flex flex-row items-center h-10" onClick={onPress} aria-checked={selected}>
 			<div className="inline-flex center w-10 h-10 rounded-full transition-colors transition-standard hover:bg-accent/5 active:bg-accent/20">
