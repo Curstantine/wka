@@ -43,6 +43,14 @@ export default defineConfig<Theme>({
 	],
 	transformers: [transformerDirectives(), transformerVariantGroup()],
 	theme: {
+		duration: {
+			emphasized: "500ms",
+			standard: "300ms",
+		},
+		easing: {
+			emphasized: "cubic-bezier(0.4, 0.0, 0.2, 1.0)",
+			standard: "cubic-bezier(0.2, 0.0, 0, 1.0)",
+		},
 		colors: {
 			primary: "#1a73e8",
 			accent: "#673AB7",
@@ -61,5 +69,8 @@ export default defineConfig<Theme>({
 	},
 	shortcuts: {
 		"decorative-b": "border-b-(solid 1 border)",
+		"transition-standard": "duration-standard ease-standard",
+		"transition-emphasized": "duration-emphasized ease-emphasized",
+		"center": "justify-center items-center",
 	},
 });
